@@ -6,11 +6,11 @@ module Authenticable
 
     return if valid_token?
 
-    render json: { errors: 'Usuário não autorizado' },
+    render json: { errors: 'Forneça um header autorhization para se identificar (mín: 05 caracteres)' },
            status: :unauthorized
   end
 
   def valid_token?
-    @token.present? && @token == Rails.application.credentials.token
+    @token.present? && @token.size >= 5
   end
 end
