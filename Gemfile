@@ -12,6 +12,7 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'sqlite3', '~> 1.4' 
+  gem "rspec-rails", "~> 6.0"
 end
 
 group :development do
@@ -20,7 +21,13 @@ group :development do
   gem "faker", "~> 3.1"
 end
 
+group :test do
+  gem "shoulda-matchers", "~> 5.3"
+  gem "simplecov", "~> 0.22.0", require: false
+end
+
 group :production do
   gem "pg", "~> 1.4"
 end
+  
 
