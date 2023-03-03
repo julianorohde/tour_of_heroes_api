@@ -6,7 +6,7 @@ module Authenticable
 
     return if valid_token?
 
-    render json: { errors: 'Forneça um header autorhization para se identificar (mín: 05 caracteres)' },
+    render json: { errors: 'Provide an autorhization header to identify yourself (min: 05 characters)' },
            status: :unauthorized
   end
 
