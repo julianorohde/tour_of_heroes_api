@@ -2,27 +2,27 @@ require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe '/api/heroes', type: :request do
-  let(:name) { 'Thorx' }
-  let(:token) { '12345' }
-
-  let(:valid_attributes) do
-    { name: name, token: token }
-  end
-
-  let(:invalid_attributes) do
-    { name: nil, token: token }
-  end
+  let(:valid_attributes) { attributes_for :hero }
+  let(:invalid_attributes) { attributes_for :invalid_hero }
 
   let(:valid_headers) do
-    { Authorization: token }
+    { Authorization: valid_attributes[:token] }
   end
 
   describe 'GET /index' do
     context 'with headers' do
-      it 'renders a successful response' do
-        Hero.create! valid_attributes
+      it 'renders a successful response', aggregate_failures: true do
+        hero = Hero.create! valid_attributes
         get api_heroes_url, headers: valid_headers, as: :json
+        binding.pry
         expect(response).to be_successful
+        expect(response.status).to eq(200)
+        response_json = JSON.parse(response.body)
+        # binding.pry
+        expect(response_json.count).to eq(Hero.all.count)
+        # include some example for hero ID
+        # include some example for hero created_at.to_date = Time.current.to_date
+        expect(response_json.first['name']).to eq(hero.name)
       end
     end
 
@@ -79,18 +79,14 @@ RSpec.describe '/api/heroes', type: :request do
 
   describe 'PATCH /update' do
     context 'with valid parameters' do
-      let(:new_name) { 'Hulke' }
-
-      let(:new_attributes) do
-        { name: new_name }
-      end
+      let(:new_attributes) { attributes_for :hero }
 
       it 'updates the requested hero' do
         hero = Hero.create! valid_attributes
         patch api_hero_url(hero),
               params: { hero: new_attributes }, headers: valid_headers, as: :json
         hero.reload
-        expect(hero.name).to eq(new_name)
+        expect(hero.name).to eq(new_attributes[:name])
       end
 
       it 'renders a JSON response with the hero' do

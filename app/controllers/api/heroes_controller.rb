@@ -8,7 +8,7 @@ class Api::HeroesController < ApplicationController
   def index
     @heroes = Hero.by_token(@token).search(params[:name]).sorted_by_name
 
-    render json: @heroes
+    render json: @heroes, status: 200
   end
 
   # GET /heroes/1

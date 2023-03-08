@@ -14,20 +14,24 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'sqlite3', '~> 1.4' 
   gem "rspec-rails", "~> 6.0"
+  gem "factory_bot_rails", "~> 6.2"
+  gem "faker", "~> 3.1"
 end
 
 group :development do
   gem 'listen', '~> 3.3'
   gem 'spring'
   gem "spring-commands-rspec", "~> 1.0"
-  gem "faker", "~> 3.1"
 end
 
 group :test do
   gem "shoulda-matchers", "~> 5.3"
   gem "simplecov", "~> 0.22.0", require: false
+  gem 'pry', '~> 0.13.1'
 end
 
 group :production do
   gem "pg", "~> 1.4"
 end
+
+
